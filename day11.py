@@ -1,67 +1,47 @@
 import time
 
+
 def main():
-    start_time = time.time()
-    memo = {}
-    iters = 960
+    iters = 75
     stones = [92, 0, 286041, 8034, 34394, 795, 8, 2051489]
     stones = [(x, iters) for x in stones]
-    result = count_recursive(memo, stones)
-    end_time = time.time()
+
+    start_time = time.perf_counter()
+    result = calc_sum({}, stones)
+    end_time = time.perf_counter()
+
     print(result)
     print(end_time - start_time)
 
-def count_recursive(memo: dict[(int, int), int], stones: list[int]) -> int:
+
+def calc_sum(cache: dict[(int, int), int], stones: list[(int, int)]) -> int:
     counter = 0
 
-    while len(stones) > 0:
-        (s, i) = stones.pop()
+    while stones:
+        (stone, iteration) = stones.pop()
 
-        if (val := memo.get((s, i))) is not None:
-            counter += val
-        elif i == 0:
+        if iteration == 0:
             counter += 1
         else:
-            memo[(s, i)] = count_recursive(memo, calc_next(s, i))
-            counter += memo[(s, i)]
+            if cache.get((stone, iteration)) is None:
+                cache[(stone, iteration)] = calc_sum(cache, blink(stone, iteration))
+            counter += cache[(stone, iteration)]
 
     return counter
 
-def calc_next(s: int, i: int) -> list[(int, int)]:
-    if s == 0:
-        return [(1, i - 1)]
 
-    s_str = str(s)
+def blink(stone: int, iteration: int) -> list[(int, int)]:
+    if stone == 0:
+        return [(1, iteration - 1)]
 
-    if (s_len := len(s_str)) % 2 == 0:
-        half = s_len // 2
-        (left, right) = s_str[:half], s_str[half:]
-        return [(int(left), i - 1), (int(right), i - 1)]
+    stone_str = str(stone)
 
-    return [(int(s) * 2024, i - 1)]
+    if (stone_len := len(stone_str)) % 2 == 0:
+        half = stone_len // 2
+        (left, right) = stone_str[:half], stone_str[half:]
+        return [(int(left), iteration - 1), (int(right), iteration - 1)]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return [(int(stone) * 2024, iteration - 1)]
 
 
 if __name__ == "__main__":
