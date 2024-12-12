@@ -2,7 +2,7 @@ import time
 
 
 def process_input(path: str) -> list[int]:
-    with open("./puzzle.txt") as fp:
+    with open(path) as fp:
         return list(map(int, fp.readline().split()))
 
 

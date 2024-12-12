@@ -3,7 +3,7 @@ from collections import Counter
 
 
 def process_input(path: str) -> (list[int], list[int]):
-    with open("./puzzle.txt") as fp:
+    with open(path) as fp:
         left, right = [], []
 
         while line := fp.readline():
