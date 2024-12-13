@@ -36,7 +36,7 @@ def count_x_mas(grid: list[list[str]]) -> int:
 
     for row in range(0, len(grid)):
         for col in range(0, len(grid[row])):
-            count_x_mas_recurse(grid, row, col, "MAS", 0,-1,-1, x_counter)
+            count_x_mas_recurse(grid, row, col, "MAS", 0, -1, -1, x_counter)
             count_x_mas_recurse(grid, row, col, "MAS", 0, -1, 1, x_counter)
             count_x_mas_recurse(grid, row, col, "MAS", 0, 1, -1, x_counter)
             count_x_mas_recurse(grid, row, col, "MAS", 0, 1, 1, x_counter)
@@ -50,13 +50,24 @@ def count_x_mas(grid: list[list[str]]) -> int:
     return sum
 
 
-def count_x_mas_recurse(grid: list[list[str]], row: int, col: int, word: str, letter_idx: int, vertical: int, horizontal: int, cache: dict[tuple[int, int], int]):
-    if (row < 0
-            or row >= len(grid)
-            or col < 0
-            or col >= len(grid[row])
-            or letter_idx >= len(word)
-            or grid[row][col] != word[letter_idx]):
+def count_x_mas_recurse(
+    grid: list[list[str]],
+    row: int,
+    col: int,
+    word: str,
+    letter_idx: int,
+    vertical: int,
+    horizontal: int,
+    cache: dict[tuple[int, int], int],
+):
+    if (
+        row < 0
+        or row >= len(grid)
+        or col < 0
+        or col >= len(grid[row])
+        or letter_idx >= len(word)
+        or grid[row][col] != word[letter_idx]
+    ):
         return
 
     if letter_idx == len(word) - 1:
@@ -71,7 +82,7 @@ def count_xmas(grid: list[list[str]]) -> int:
 
     for row in range(0, len(grid)):
         for col in range(0, len(grid[row])):
-            sum += count_xmas_recurse(grid, row, col, "XMAS", 0,0,1)
+            sum += count_xmas_recurse(grid, row, col, "XMAS", 0, 0, 1)
             sum += count_xmas_recurse(grid, row, col, "XMAS", 0, 0, -1)
             sum += count_xmas_recurse(grid, row, col, "XMAS", 0, 1, 0)
             sum += count_xmas_recurse(grid, row, col, "XMAS", 0, -1, 0)
@@ -83,13 +94,17 @@ def count_xmas(grid: list[list[str]]) -> int:
     return sum
 
 
-def count_xmas_recurse(grid: list[list[str]], row: int, col: int, word: str, letter_idx: int, vertical: int, horizontal: int) -> int:
-    if (row < 0
-            or row >= len(grid)
-            or col < 0
-            or col >= len(grid[row])
-            or letter_idx >= len(word)
-            or grid[row][col] != word[letter_idx]):
+def count_xmas_recurse(
+    grid: list[list[str]], row: int, col: int, word: str, letter_idx: int, vertical: int, horizontal: int
+) -> int:
+    if (
+        row < 0
+        or row >= len(grid)
+        or col < 0
+        or col >= len(grid[row])
+        or letter_idx >= len(word)
+        or grid[row][col] != word[letter_idx]
+    ):
         return 0
 
     if letter_idx == len(word) - 1:
